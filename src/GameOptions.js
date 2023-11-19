@@ -1,31 +1,29 @@
-import { useState, useEffect, useLayoutEffect } from "react";
-import { Link } from 'react-router-dom';
+import { useState } from "react";
 import './gameOptions.css';
 
-const faces = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+// Constant for better readability
+const FACES = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+const PAIR_SIZE = 2;
 
 function GameOptions(props) {
-  //const [cards, setCards] = useState([]);
   const [pairs, setPairs] = useState(2);
   const [timer, setTimer] = useState(20);
   const [fails, setFails] = useState(20);
 
-
-  //creates an array of cards. faceId is for distinguishing which "A"/"B"/ect card it is.
-  //not currently neccesary but may be of use later.
-  const setCardCount = (count) => {
+  // Function to create an array of cards. faceId is for distinguishing which "A"/"B"/etc card it is.
+  // Not currently necessary but may be of use later.
+  const generateCards = (count) => {
     const cards = [];
-    var faceId = 0;
-    const pairSize = 2;
+    let faceId = 0;
 
-    const pairs = (count * pairSize);
+    const totalPairs = count * PAIR_SIZE;
 
-    for (var i = 0; i < pairs; i++) {
+    for (let i = 0; i < totalPairs; i++) {
       cards.push({
-        face: faces[Math.floor(i / pairSize)],
-        faceId: faceId,
+        face: FACES[Math.floor(i / PAIR_SIZE)],
+        faceId,
         complete: false
-      })
+      });
 
       faceId++;
       if (faceId >= pairSize) faceId = 0;
@@ -34,70 +32,65 @@ function GameOptions(props) {
     console.log(cards);
 
     return cards;
-    //setCards(c);
   }
 
+  // Event handler for input changes
   const handleChange = (event) => {
-    const target = event.target;
-    const name = target.name;
+    const { name, value } = event.target;
+
     switch (name) {
       case "pair":
-        setPairs(target.value)
+        setPairs(value)
         break;
 
       case "timer":
-        setTimer(target.value)
+        setTimer(value)
         break;
 
       case "fails":
-        setFails(target.value)
+        setFails(value)
         break;
+
+      default:
+        console.log("Unexpected input name:", name);
     }
   }
 
+  // Event handler for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("submit");
-
-
+    console.log("Submit");
 
     props.startGame({
-      cards: setCardCount(pairs),
-      timer: timer,
-      fails: fails
+      cards: generateCards(pairs),
+      timer,
+      fails
     });
   }
 
+  const labelName = ["Pairs", "Timer", "Fails"];
+  
   return (
     <div className="GameOptions">
       <form onSubmit={handleSubmit}>
-        <label>
-          Pairs
-          <input
-            name="pair"
-            type="number"
-            value={pairs}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Timer
-          <input
-            name="timer"
-            type="number"
-            value={timer}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Fails
-          <input
-            name="fails"
-            type="number"
-            value={fails}
-            onChange={handleChange}
-          />
-        </label>
+        
+        {/* Input fields for pairs, timer, and fails */}
+        {labelName.map((label) => (
+          <label key={label}>
+            {label}
+            <input
+              name={label.toLowerCase()}
+              type="number"
+              value={label.toLowerCase() === "pairs" 
+                ? pairs 
+                : label.toLowerCase() === "timer" 
+                  ? timer 
+                  : fails}
+              onChange={handleChange}
+            />
+          </label>
+        ))}
+        
         <button type="submit">Start</button>
       </form>
     </div>

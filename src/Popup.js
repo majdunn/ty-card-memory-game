@@ -1,8 +1,10 @@
-import { useState, useEffect, useLayoutEffect } from "react";
-import { Link } from 'react-router-dom';
+/* MJ Review Notes
+- Remove unused imports
+*/
+
 import './Popup.css';
 
-function Popup(props) {
+function Popup( props ) {
   return (
     <div className="Popup" onClick={() => props.restart()}>
       <h2>{props.message}</h2>

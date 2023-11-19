@@ -1,9 +1,30 @@
-import { useState, useEffect, useLayoutEffect } from "react";
+/* MJ Review Notes
+- The code appears to be syntactically correct. It follows JavaScript and React syntax conventions without any obvious errors
+- The code is relatively readable, but some improvements can be made for clarity. For instance, the function names and comments could be more descriptive.
+  example:   
+  console.log(gameData.timer)
+  console.log("Game timer:", gameData.timer);
+- The code appears to be free of obvious bugs. 
+- The startGame function does not check whether the newGameData is truthy before setting the game data. It might be beneficial to add a check to ensure data integrity.
+- Remove unused imports
+- Reformat to use more readable structure. Long lines are harder to read.
+- The code is relatively concise.
+- Use `const` or `let` instead of `var` unless there is a clear reason not to
+- The code seems focused on the frontend and doesn't appear to have direct security vulnerabilities. However, always be cautious when handling user inputs and ensure that backend interactions are secure.
+- The code already has minimal nesting, and further reduction may compromise readability. 
+- The code does not have extensive branching that warrants early returns. The existing structure seems appropriate for the logic flow.
+- Remove the getCards and getTimer functions and use the prop directly. Only use a function when it can possibly change the value returned. This enhances readability. 
+- Ternary operator not needed to render null. 
+  example, change
+  {victory && inGame ? <Popup restart={restart} message="YOU WIN!"/> : null}
+  to
+  {victory && inGame && <Popup restart={restart} message="YOU WIN!" />}
+*/
+
+import { useState, useEffect } from 'react';
 import CardGame from './CardGame';
 import GameOptions from './GameOptions';
 import Popup from './Popup';
-import { Link } from 'react-router-dom';
-
 
 function App() {
   const [gameData, setGameData] = useState({});
@@ -12,72 +33,67 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
   const [victory, setVictory] = useState(false);
 
-
   useEffect(() => {
-    if(!inGame && ready){
-      console.log("got Game Data");
-
+    if (!inGame && ready) {
+      console.log('Received game data');
       setInGame(true);
     }
-  }, [gameData, ready])
-
+  }, [gameData, ready]);
 
   useEffect(() => {
-    console.log("v changed" + inGame);
-  }, [inGame])
-
+    console.log('In-game status changed: ' + inGame);
+  }, [inGame]);
 
   const startGame = (newGameData) => {
-    setGameData(newGameData);
-    setReady(true);
-    console.log("starting game");
-  }
-  
-  
-  //gets the cards from gameData. could have just called gameData.cards
-  //but this makes it a bit more consistent in the JSX.
-  const getCards = () => {
-    console.log(gameData.cards);
-    return gameData.cards;
-  }
+    if (newGameData) {
+      setGameData(newGameData);
+      setReady(true);
+      console.log('Starting game');
+    }
+  };
 
   const restart = () => {
     setReady(false);
     setGameOver(false);
     setInGame(false);
     setVictory(false);
-  }
+  };
 
   const handleGameOver = () => {
     setGameOver(true);
-    console.log("end")
-  }
+    console.log('Game over');
+  };
 
   const handleVictory = () => {
     setVictory(true);
-  }
+  };
 
-  //returns the ids of the cards scrambled.
+  // returns the ids of the cards scrambled.
   const getIds = () => {
-    var ids = gameData.cards.map((cards, i) => i);
+    const ids = gameData.cards.map((cards, i) => i);
     const idsScrambled = ids.sort(() => Math.random() - 0.5);
-    console.log(idsScrambled);
-
+    console.log('Scrambled IDs:', idsScrambled);
     return idsScrambled;
-  }
-
-  //gets the timer from gameData. could have just called gameData.timer
-  //but this makes it a bit more consistent in the JSX.
-  const getTimer = () => {
-    console.log(gameData.timer)
-    return gameData.timer;
-  }
+  };
 
   return (
     <div className="App">
-      {inGame ? <CardGame cards={getCards()} ids={getIds()} timer={getTimer()} fails={gameData.fails} handleGameOver={handleGameOver} handleVictory={handleVictory}/> : <GameOptions startGame={startGame}/>}
-      {gameOver && inGame && !victory ? <Popup restart={restart} message="GAME OVER!"/> : null}
-      {victory && inGame ? <Popup restart={restart} message="YOU WIN!"/> : null}
+      {inGame ? (
+        <CardGame
+          cards={gameData.cards}
+          ids={getIds()}
+          timer={gameData.timer}
+          fails={gameData.fails}
+          handleGameOver={handleGameOver}
+          handleVictory={handleVictory}
+        />
+      ) : (
+        <GameOptions startGame={startGame} />
+      )}
+      {gameOver && inGame && !victory && (
+        <Popup restart={restart} message="GAME OVER!" />
+      )}
+      {victory && inGame && <Popup restart={restart} message="YOU WIN!" />}
     </div>
   );
 }

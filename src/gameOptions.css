@@ -1,3 +1,11 @@
+/* MJ Review Notes
+- The code is generally clear and straightforward. There are no confusing elements, properties, or hacks.
+- The naming and organization are consistent throughout the code. Each section is clearly defined with meaningful variable names.
+- The code seems to be focused on styling and layout, which is less likely to have cross-browser issues. However, it's always a good practice to test in multiple browsers to ensure compatibility.
+- The code is already quite readable. However, you might consider grouping related properties together, such as grouping gradient variables, text-related variables, etc., for even clearer organization.
+- The code is relatively concise, and there are no duplicate lines. It seems well-optimized.
+- Overall, the CSS is well-structured, readable, and seems to follow best practices. Minor adjustments for even clearer organization could be made, but it's already in good shape.
+*/
 :root {
   /* Background Gradient */
   --backgroundGradientStart: #332e36;

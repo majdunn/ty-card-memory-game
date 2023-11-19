@@ -1,3 +1,11 @@
+/* MJ Review Notes
+- The code is generally clear and straightforward. The use of custom properties (:root) and keyframe animations is well-explained and not confusing.
+- Naming and organization are consistent, and there are no blatant inconsistencies.
+- The code appears to be focused on styling, which is less prone to cross-browser issues. 
+- The code is already quite readable. Consider adding comments to explain complex sections if needed, but overall, it seems well-organized.
+- The code is concise, and there are no duplicate lines. It seems well-optimized.
+- Overall, the CSS is well-structured, readable, and follows best practices. Minor adjustments, such as comments for complex sections, could enhance its clarity.
+*/
 :root {
   /* Background Gradient */
   --backgroundGradientStart: #332e36;
