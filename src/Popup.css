@@ -1,3 +1,11 @@
+/* MJ Review Notes
+- The code is clear and does not contain confusing elements or hacks. It straightforwardly defines the styling for a popup with a semi-transparent background and a centered message.
+- Naming and organization are consistent. The properties are logically organized, and there are no blatant inconsistencies.
+- The provided CSS is basic and should work across major browsers. 
+- The code is already quite readable. 
+- The code is concise, and there are no duplicate lines. It seems well-optimized for its purpose.
+- Overall, the CSS for the Popup component is well-structured, clear, and functional. Adding more comments for clarity might be a slight improvement, but the code is already quite readable as it is.
+*/
 .Popup {
   position: fixed;
   top: 0;
